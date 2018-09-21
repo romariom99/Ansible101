@@ -1,2 +1,26 @@
 ---
-# tasks file for sqlserver
+  - name: instalar mysql
+    apt:
+      name: "{{ item }}"
+    with_items:
+      - python-mysqldb
+      - mysql-server
+
+#  - name: Configure SELinux to start mysql on any port
+#    when: sestatus.rc != 0
+
+
+  - name: crear un archivo de configuración mysql
+    template: src=my.cnf.j2 dest=/etc/my.cnf
+    notify:
+     - restart mysql
+
+  - name: empesar el servicio Mysql
+    service: name=mysqld state=started enable=yes
+
+
+  - name: crear base de datos
+    mysql_db: name={{ dbname }} state=present
+
+  - name: Create Application DB User
+    mysql_user: name={{ romario }} password={{ 1234 }} priv=*.*:ALL host='%' state=present
