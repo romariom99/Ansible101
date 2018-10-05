@@ -1,26 +1,15 @@
 ---
-  - name: instalar mysql
-    apt:
-      name: "{{ item }}"
-    with_items:
-      - python-mysqldb
-      - mysql-server
+- name: 1. Install MariaDB server package
+  apt: name=mariadb-server state=present
 
-#  - name: Configure SELinux to start mysql on any port
-#    when: sestatus.rc != 0
+- name: 2. Start Mysql Service
+  service: name=mysql state=started enabled=true
 
+- name: Install python Mysql package #required for mysql_db tasks
+  apt: name=python-mysqldb state=present
 
-  - name: crear un archivo de configuración mysql
-    template: src=my.cnf.j2 dest=/etc/my.cnf
-    notify:
-     - restart mysql
+- name: 3. Create a new database
+  mysql_db: name=demo state=present collation=utf8_general_ci
 
-  - name: empezar el servicio Mysql
-    service: name=mysqld state=started enabled=yes
-
-
-  - name: crear base de datos
-    mysql_db: name={{ dbname }} state=present
-
-  - name: Create Application DB User
-    mysql_user: name={{ romario }} password={{ 1234 }} priv=*.*:ALL host='%' state=present
+- name: 4. Create a database user
+  mysql_user: name=demo password=demo priv=*.*:ALL host=localhost state=present
