@@ -15,7 +15,7 @@
     notify:
      - restart mysql
 
-  - name: empesar el servicio Mysql
+  - name: empezar el servicio Mysql
     service: name=mysqld state=started enable=yes
 
 
