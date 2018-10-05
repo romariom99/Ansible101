@@ -16,7 +16,7 @@
      - restart mysql
 
   - name: empezar el servicio Mysql
-    service: name=mysqld state=started enable=yes
+    service: name=mysqld state=started enabled=yes
 
 
   - name: crear base de datos
