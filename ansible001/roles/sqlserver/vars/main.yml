@@ -1,2 +1,5 @@
 ---
 # vars file for sqlserver
+myname: romario
+mypass: 1234
+nomdb: Romario

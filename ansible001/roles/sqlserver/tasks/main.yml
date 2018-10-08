@@ -9,7 +9,7 @@
   apt: name=python-mysqldb state=present
 
 - name: 3. Create a new database
-  mysql_db: name=demo state=present collation=utf8_general_ci
+  mysql_db: name={{nomdb}} state=present collation=utf8_general_ci
 
 - name: 4. Create a database user
-  mysql_user: name=demo password=demo priv=*.*:ALL host=localhost state=present
+  mysql_user: name={{myname}} password={{mypass}} priv=*.*:ALL host=localhost state=present
