@@ -1,15 +1,20 @@
 ---
-- name: 1. Install MariaDB server package
+- name:  Install MariaDB server package
   apt: name=mariadb-server state=present
 
-- name: 2. Start Mysql Service
+- name:  Start Mysql Service
   service: name=mysql state=started enabled=true
 
-- name: Install python Mysql package #required for mysql_db tasks
+- name: Install python Mysql package
   apt: name=python-mysqldb state=present
 
-- name: 3. Create a new database
+- name: Install mysql extension for php
+  apt: name = {{item}} state:present
+  with_items:
+    - php5-mysql
+
+- name:  Create a new database
   mysql_db: name={{nomdb}} state=present collation=utf8_general_ci
 
-- name: 4. Create a database user
+- name:  Create a database user
   mysql_user: name={{myname}} password={{mypass}} priv=*.*:ALL host=localhost state=present
